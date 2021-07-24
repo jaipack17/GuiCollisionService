@@ -143,7 +143,7 @@ print(group:getColliders())
 * returns: nil
 
 ```lua
-group:removeColliders(1) -- removes the 1st collider that was added
+group:removeCollider(1) -- removes the 1st collider that was added
 ```
 <hr/>
 
