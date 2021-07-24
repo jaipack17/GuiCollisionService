@@ -36,10 +36,10 @@ local GuiCollisionService = require(game:GetService("ReplicatedStorage").GuiColl
 
 # Examples
 ### Destroying targets when touched
-![showcase1 ‐ Made with Clipchamp|426x240](upload://cTOPnqARZro0YIT6jQYiOxOv4ot.gif) 
+![image](https://user-images.githubusercontent.com/74130881/126872457-72acd3c2-cbeb-43eb-95c6-a43a79280742.png)
 
 ### Changing colors on collision [Video quality issue]
-![showcase2 ‐ Made with Clipchamp|426x240](upload://bp569yryRIavxCgU6JSUkvXGC88.gif) 
+![image](https://user-images.githubusercontent.com/74130881/126872463-e61e70a5-7edd-4ba1-9f44-13e3f07af242.png)
 
 ### Game made using this module
 https://www.roblox.com/games/7111031857/Flappy-Wings
