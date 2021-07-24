@@ -26,7 +26,7 @@
 
 [GuiCollisionService](https://www.roblox.com/library/7145661386/GuiCollisionService) is an easy to use module that focuses on helping you create collidable Guis and help you detect them using BindableEvents. It is one of the easiest and efficient Gui Collision Detector out there. It helps you to create intuative 2 dimensional physics in your roblox games.
 
-*v1.17.1 will contain features such as .canCollide() and a property to make it impossible for a gui to go through another, just how part colliding works!*
+*v1.17.0 will contain features such as .canCollide() and a property to make it impossible for a gui to go through another, just how part colliding works!*
 
 # Getting Started
 
