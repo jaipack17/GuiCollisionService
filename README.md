@@ -16,8 +16,7 @@
 - [Getting Started](#getting-started)
 - [Initializing](#initializing)
 - [Examples](#examples)
-- [Module](#module)
-- [Navigation](#navigation)
+- [Navigation](#----navigation----)
 
 # About
 
