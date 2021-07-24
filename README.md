@@ -199,7 +199,7 @@ end)
 
 ## Example Code
 
-Explorer:<br/>![image](https://user-images.githubusercontent.com/74130881/126873058-25393536-c6a8-4789-859b-20a02bedfd65.png)
+StarterGui:<br/>![image](https://user-images.githubusercontent.com/74130881/126873058-25393536-c6a8-4789-859b-20a02bedfd65.png)
 
 Place a localscript inside ScreenGui: 
 ```lua
