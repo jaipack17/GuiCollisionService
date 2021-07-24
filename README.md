@@ -60,7 +60,30 @@ https://www.roblox.com/games/7111031857/Flappy-Wings
 
 # Documentation
 
+## `.createCollisionGroup()`
 
+This function is the first step out of all, in order to create your colliders and hits.
+
+* parameters: none
+* returns: metatable
+
+```lua
+local GuiCollisionService = require(game.ReplicatedStorage.GuiCollisionService)
+
+local group = GuiCollisionService.createCollisionGroup()
+```
+
+## `.isColliding`
+
+* parameters: guiObjectHitter: instance, guiObjectCollider: instance
+* returns: boolean
+
+```lua
+local instance1 = script.Parent.Frame1 -- example
+local instance2 = script.Parent.Collider -- example [Frame]
+
+group.isColliding(instance1, instance2)
+```
 
 #### Thank you, Hope it helps you out, I would love to see the growth of 2 Dimensional games on roblox, and thats why I am bringing out a **tutorial** for making 2 dimensional roblox games pretty soon! 
 
