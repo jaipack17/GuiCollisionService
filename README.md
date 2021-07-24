@@ -218,7 +218,6 @@ end)
 
 group:getHitter(1).OnCollisionEnded.Event:Connect(function()
 	group:getHitter(1).BackgroundColor3 = Color3.new(255,255,255)
-
 end)
 ```
 
