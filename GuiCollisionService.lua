@@ -24,26 +24,15 @@ function GuiCollisionService.isColliding(guiObject0, guiObject1)
 	
 	if not typeof(guiObject0) == "Instance" or not typeof(guiObject1) == "Instance" then error("argument must be an instance") return end
 	
-	--local ap0 = guiObject0.AbsolutePosition
-	--local as0 = guiObject0.AbsoluteSize	
-	--local ap1 = guiObject1.AbsolutePosition
-	--local as1 = guiObject1.AbsoluteSize
-		
-	--if ap0 and as0 and ap1 and as1 then
-	--	local ap0as0 = ap0 + as0
-	--	local ap1as1 = ap1 + as1
-				
-	--	return (ap0.y < ap1as1.y and ap0as0.y > ap1.y) and (ap0.x < ap1as1.x and ap0as0.x > ap1.y)
-	--end
+	local ap0 = guiObject0.AbsolutePosition
+	local ap1 = guiObject1.AbsolutePosition
+	local as0 = guiObject0.AbsoluteSize
+	local as1 = guiObject1.AbsoluteSize
 	
-	local gui1_topLeft = guiObject0.AbsolutePosition
-
-	local gui2_topLeft = guiObject1.AbsolutePosition
-	
-	if gui1_topLeft and gui2_topLeft then
-		local gui1_bottomRight = gui1_topLeft + guiObject0.AbsoluteSize
-		local gui2_bottomRight = gui2_topLeft + guiObject1.AbsoluteSize
-		return ((gui1_topLeft.x < gui2_bottomRight.x and gui1_bottomRight.x > gui2_topLeft.x) and (gui1_topLeft.y < gui2_bottomRight.y and gui1_bottomRight.y > gui2_topLeft.y))
+	if ap0 and ap1 then
+		local ap0as0 = ap0 + as0
+		local ap1as1 = ap1 + as1
+		return (ap0.X < ap1as1.X and ap1as1.X > ap1.X) and (ap0.Y < ap1as1.Y and ap0as0.Y > ap1.Y)
 	end
 end
 
