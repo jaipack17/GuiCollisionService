@@ -17,6 +17,7 @@
 - [Initializing](#initializing)
 - [Examples](#examples)
 - [Navigation](#----navigation----)
+- [Documentation](#documentation)
 
 # About
 
@@ -51,13 +52,15 @@ https://www.roblox.com/games/7111031857/Flappy-Wings
 
 # [Module](https://www.roblox.com/library/7145661386/GuiCollisionService)
 
-# [Documentation]() 
-
 # [Bug Reporting](https://www.github.com/jaipack17/GuiCollisionService/issues)
 
 # [Contributing](https://github.com/jaipack17/GuiCollisionService/blob/main/CONTRIBUTING.md)
 
 <hr/>
+
+# Documentation
+
+
 
 #### Thank you, Hope it helps you out, I would love to see the growth of 2 Dimensional games on roblox, and thats why I am bringing out a **tutorial** for making 2 dimensional roblox games pretty soon! 
 
