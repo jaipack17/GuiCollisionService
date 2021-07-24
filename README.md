@@ -1,4 +1,4 @@
-![GuiCollision-removebg-preview (1)|676x188](https://raw.githubusercontent.com/jaipack17/GuiCollisionService/main/GuiCollision-removebg-preview%20(1).png) 
+<a href="https://www.npmjs.com/package/cli-pages"><img style="left:70" src="https://raw.githubusercontent.com/jaipack17/GuiCollisionService/main/GuiCollision-removebg-preview%20(1).png" width="606" alt="logo" /></a>
 <div align="center">
     <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
       <img src="https://img.shields.io/badge/module-get-blue"/>
