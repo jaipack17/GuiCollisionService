@@ -85,6 +85,28 @@ local instance2 = script.Parent.Collider -- example [Frame]
 group.isColliding(instance1, instance2)
 ```
 
+## `addCollider()`
+
+* parameters: guiObjectCollider: instance
+* returns: nil
+
+The following function is used to declare a gui instance as a collider. Whenever a hitter collides with this gui instance, an event will be fired.
+
+```lua
+group:addCollider(script.Parent.Still)
+group:addCollider(script.Parent.Frame)
+group:addCollider(script.Parent.Frame2)
+
+--[[
+Colliders are saved as such:
+ {
+   Still,
+   Frame, 
+   Frame2
+ }
+]]--
+```
+
 #### Thank you, Hope it helps you out, I would love to see the growth of 2 Dimensional games on roblox, and thats why I am bringing out a **tutorial** for making 2 dimensional roblox games pretty soon! 
 
 **Peace!**
