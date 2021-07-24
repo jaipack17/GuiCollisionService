@@ -24,15 +24,17 @@ function GuiCollisionService.isColliding(guiObject0, guiObject1)
 	
 	if not typeof(guiObject0) == "Instance" or not typeof(guiObject1) == "Instance" then error("argument must be an instance") return end
 	
-	local ap0 = guiObject0.AbsolutePosition
-	local ap1 = guiObject1.AbsolutePosition
-	local as0 = guiObject0.AbsoluteSize
-	local as1 = guiObject1.AbsoluteSize
+	local ap1 = guiObject0.AbsolutePosition
+	local as1 = guiObject0.AbsoluteSize
+	local ap2 = guiObject1.AbsolutePosition
+	local as2 = guiObject1.AbsoluteSize
 	
-	if ap0 and ap1 then
-		local ap0as0 = ap0 + as0
-		local ap1as1 = ap1 + as1
-		return (ap0.X < ap1as1.X and ap1as1.X > ap1.X) and (ap0.Y < ap1as1.Y and ap0as0.Y > ap1.Y)
+	if ap1 and ap2 and as1 and as2 then
+		local sum1 = ap1 + as1
+		local sum2 = ap2 + as2
+		
+		local result = (sum1.Y > ap2.Y and ap1.Y < sum2.Y) and (sum1.X > ap2.X and ap1.X < sum2.X)
+		return result
 	end
 end
 
