@@ -60,6 +60,13 @@ https://www.roblox.com/games/7111031857/Flappy-Wings
 
 # Documentation
 
+Before diving into the documentation, I would like to tell you, this module works on the basis of the 'hitter n collider' principle
+
+![image](https://user-images.githubusercontent.com/74130881/126873329-870a2c2a-e1cd-4673-95d1-e2195c034f54.png)
+
+The white frame is the collider - It is the frame that is hit by the hitter
+The green frame is the hitter - It is the frame that collides with the collider
+
 **Initializing**
 
 ## `.createCollisionGroup()`
