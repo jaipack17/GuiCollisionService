@@ -136,6 +136,66 @@ group:removeColliders(1) -- removes the 1st collider that was added
 <hr/>
 
 **Managing Hitters**
+## `addHitter()`
+
+* parameters: guiObject: instance
+* returns: nil
+
+```lua
+group:addHitter(script.Parent.HitFrame)
+```
+
+## `getHitter()`
+
+* parameters: index: number
+* returns: instance
+
+```lua
+group:getHitter(1) -- returns the first hitter added
+```
+
+## `getHitters()`
+
+* parameters: none
+* returns: table
+
+```lua
+group:getHitters()
+```
+
+## `removeHitter()`
+
+* parameters: index: number
+* returns: nil
+
+```lua
+group:removeHitter(1) -- removes the first hitter added
+```
+<hr/>
+
+**Managing Events**
+
+## `CollidersTouched - Event`
+This event is fired when a hitter touches a collider! If it does, it returns a table of the colliders it is touching with
+
+```lua
+local hitter = group:getHitter(1) -- first hitter
+
+hitter.CollidersTouched.Event:Connect(function(hits)
+   hitter.BackgroundColor3 = Color3.new(255,0,0) -- changes color of hitter to red when it collides.
+end)
+```
+
+## `OnCollisionEnded - Event`
+This event is fired when a hitter is not in touch with any colliders at all
+
+```lus
+local hitter = group:getHitter(1) -- first hitter
+
+hitter.OnCollisionEnded.Event:Connect(function(hits)
+   hitter.BackgroundColor3 = Color3.new(0,0,0) -- changes color of hitter to white
+end)
+```
 
 <hr/>
 
