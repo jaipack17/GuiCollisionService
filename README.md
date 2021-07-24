@@ -26,7 +26,8 @@
 
 - Get the module through this link: https://www.roblox.com/library/7145661386/GuiCollisionService
 - Place the module inside ReplicatedStorage
-![image|251x61](upload://xim4t2ChgMk3XfOHrEPPQrKoR3r.png) 
+![image](https://user-images.githubusercontent.com/74130881/126872432-fbe0643b-fb8a-4377-afab-77d14bb4a052.png)
+
 
 # Initializing
 Require the module in a LocalScript or a Script using the following code - 
