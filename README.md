@@ -223,8 +223,6 @@ end)
 
 Place a localscript inside Move: 
 
-```
-
 ```lua
 local player = game.Players.LocalPlayer
 local RS = game:GetService("RunService")
