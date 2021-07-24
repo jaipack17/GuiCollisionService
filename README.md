@@ -4,6 +4,9 @@
     <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
       <img src="https://img.shields.io/badge/module-get-blue"/>
     </a>
+    <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
+      <img src="https://img.shields.io/badge/version-1.16.0-yellow"/>
+    </a>
     <a href="https://github.com/jaipack17/GuiCollisionService/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/github-contribute-black" alt="contribute" /></a>
     <a href="https://www.github.com/jaipack17/GuiCollisionService/issues"><img src="https://img.shields.io/badge/issues-bugs-red" alt="issues" /></a>
     <a href="https://github.com/jaipack17/cli-pages#documentation"><img src="https://img.shields.io/badge/docs-view-%23blue" alt="docs" /></a>
@@ -22,6 +25,8 @@
 # About
 
 [GuiCollisionService](https://www.roblox.com/library/7145661386/GuiCollisionService) is an easy to use module that focuses on helping you create collidable Guis and help you detect them using BindableEvents. It is one of the easiest and efficient Gui Collision Detector out there. It helps you to create intuative 2 dimensional physics in your roblox games.
+
+*v1.17.1 will contain features such as .canCollide() and a property to make it impossible for a gui to go through another, just how part colliding works!*
 
 # Getting Started
 
