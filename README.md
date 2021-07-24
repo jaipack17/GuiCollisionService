@@ -189,12 +189,52 @@ end)
 ## `OnCollisionEnded - Event`
 This event is fired when a hitter is not in touch with any colliders at all
 
-```lus
+```lua
 local hitter = group:getHitter(1) -- first hitter
 
 hitter.OnCollisionEnded.Event:Connect(function(hits)
    hitter.BackgroundColor3 = Color3.new(0,0,0) -- changes color of hitter to white
 end)
+```
+
+## Example Code
+
+Explorer: 
+![image](https://user-images.githubusercontent.com/74130881/126873058-25393536-c6a8-4789-859b-20a02bedfd65.png)
+
+Place a localscript inside ScreenGui: 
+```lua
+local GuiCollisionService = require(game.ReplicatedStorage.GuiCollisionService)
+
+local group = GuiCollisionService.createCollisionGroup()
+
+group:addCollider(script.Parent.Still)
+group:addCollider(script.Parent.Still2)
+group:addCollider(script.Parent.Still3)
+group:addHitter(script.Parent.Move)
+
+group:getHitter(1).CollidersTouched.Event:Connect(function(hits)
+	group:getHitter(1).BackgroundColor3 = Color3.new(0.333333, 1, 0)
+end)
+
+group:getHitter(1).OnCollisionEnded.Event:Connect(function()
+	group:getHitter(1).BackgroundColor3 = Color3.new(255,255,255)
+
+end)
+```
+
+Place a localscript inside Move: 
+
+```
+
+```lua
+local player = game.Players.LocalPlayer
+local RS = game:GetService("RunService")
+
+RS.RenderStepped:Connect(function()
+	script.Parent.Position = UDim2.new(0, player:GetMouse().X, 0, player:GetMouse().Y)
+end)
+
 ```
 
 <hr/>
