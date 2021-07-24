@@ -1,4 +1,4 @@
-![GuiCollision-removebg-preview (1)|676x188](upload://f26KVcxTn9o7JtWYW9N75SNPjmQ.png) 
+![GuiCollision-removebg-preview (1)|676x188](https://raw.githubusercontent.com/jaipack17/GuiCollisionService/main/GuiCollision-removebg-preview%20(1).png) 
 <div align="center">
     <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
       <img src="https://img.shields.io/badge/module-get-blue"/>
