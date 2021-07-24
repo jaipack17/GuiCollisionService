@@ -36,11 +36,10 @@ local GuiCollisionService = require(game:GetService("ReplicatedStorage").GuiColl
 
 # Examples
 ### Destroying targets when touched
-![4fedc03f47fd67953bb40e363b84eb385fb42a10](https://user-images.githubusercontent.com/74130881/126872485-260f5a83-6399-4d57-be87-ac234d861b37.gif)
-
+![5a696aecff47ff4165895e529446fea3ab3f6485](https://user-images.githubusercontent.com/74130881/126872487-9656af92-deb9-4d1b-9781-3866fc1f19c0.gif)
 
 ### Changing colors on collision [Video quality issue]
-![5a696aecff47ff4165895e529446fea3ab3f6485](https://user-images.githubusercontent.com/74130881/126872487-9656af92-deb9-4d1b-9781-3866fc1f19c0.gif)
+![4fedc03f47fd67953bb40e363b84eb385fb42a10](https://user-images.githubusercontent.com/74130881/126872485-260f5a83-6399-4d57-be87-ac234d861b37.gif)
 
 
 ### Game made using this module
