@@ -47,16 +47,25 @@ function GuiCollisionService.createCollisionGroup()
 	
 	self.colliders = {}
 	self.hitters = {}
-	
-	game:GetService("RunService").RenderStepped:Connect(function()
+		
+	game:GetService("RunService").RenderStepped:Connect(function(dt)
 		for _, hitter in ipairs(self.hitters) do
 			local res = check(hitter, self.colliders)
 			if res then
 				hitter.CollidersTouched:Fire(res)
+				hitter.Colliding.Value = true
+				return
 			else
-				hitter.OnCollisionEnded:Fire()
+				hitter.Colliding.Value = false
 			end
-		end
+			
+			hitter.Colliding:GetPropertyChangedSignal("Value"):Connect(function()
+				if not hitter.Colliding.Value then
+					hitter.OnCollisionEnded:Fire()
+					return
+				end
+			end)
+		end		
 	end)
 
 	return self
@@ -70,8 +79,13 @@ function GuiCollisionService:addHitter(instance)
 	be.Parent = instance
 	
 	local be2 = be:Clone()
-	be2.Parent = instance
 	be2.Name = "OnCollisionEnded"
+	be2.Parent = instance
+
+	local is = Instance.new("BoolValue")
+	is.Name = "Colliding"
+	is.Value = false
+	is.Parent = instance
 	
 	table.insert(self.hitters, instance)
 end
