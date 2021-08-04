@@ -150,11 +150,17 @@ group:removeCollider(1) -- removes the 1st collider that was added
 **Managing Hitters**
 ## `addHitter()`
 
-* parameters: guiObject: instance
+* parameters: guiObject: instance, solid: boolean
 * returns: nil
 
 ```lua
 group:addHitter(script.Parent.HitFrame)
+```
+
+To make it impossible for a hitter to go through the collider:
+
+```lua
+group:addHitter(script.Parent.HitFrame, true)
 ```
 
 ## `getHitter()`
