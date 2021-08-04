@@ -47,6 +47,9 @@ local GuiCollisionService = require(game:GetService("ReplicatedStorage").GuiColl
 ### Changing colors on collision [Video quality issue]
 ![4fedc03f47fd67953bb40e363b84eb385fb42a10](https://user-images.githubusercontent.com/74130881/126872485-260f5a83-6399-4d57-be87-ac234d861b37.gif)
 
+### Solid Colliding Gui Frames
+
+![Uploading new ‐ Made with Clipchamp.gif…]()
 
 ### Game made using this module
 https://www.roblox.com/games/7111031857/Flappy-Wings
