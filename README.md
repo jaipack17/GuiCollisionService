@@ -49,7 +49,8 @@ local GuiCollisionService = require(game:GetService("ReplicatedStorage").GuiColl
 
 ### Solid Colliding Gui Frames
 
-![Uploading new ‐ Made with Clipchamp.gif…]()
+![new ‐ Made with Clipchamp](https://user-images.githubusercontent.com/74130881/128133416-07fee16d-e37a-476e-9e8a-f71569b85109.gif)
+
 
 ### Game made using this module
 https://www.roblox.com/games/7111031857/Flappy-Wings
