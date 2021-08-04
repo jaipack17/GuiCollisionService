@@ -108,7 +108,7 @@ group.isColliding(instance1, instance2)
 
 ## `addCollider()`
 
-* parameters: guiObjectCollider: instance
+* parameters: guiObjectCollider: instance, solid: boolean
 * returns: nil
 
 The following function is used to declare a gui instance as a collider. Whenever a hitter collides with this gui instance, an event will be fired.
@@ -117,6 +117,7 @@ The following function is used to declare a gui instance as a collider. Whenever
 group:addCollider(script.Parent.Still)
 group:addCollider(script.Parent.Frame)
 group:addCollider(script.Parent.Frame2)
+group:addCollider(script.Parent.Frame3, true) -- To make it impossible for a hitter to go through the collider
 
 --[[
 Colliders are saved as such:
@@ -150,19 +151,12 @@ group:removeCollider(1) -- removes the 1st collider that was added
 **Managing Hitters**
 ## `addHitter()`
 
-* parameters: guiObject: instance, solid: boolean
+* parameters: guiObject: instance
 * returns: nil
 
 ```lua
 group:addHitter(script.Parent.HitFrame)
 ```
-
-To make it impossible for a hitter to go through the collider:
-
-```lua
-group:addHitter(script.Parent.HitFrame, true)
-```
-
 ## `getHitter()`
 
 * parameters: index: number
