@@ -1,7 +1,7 @@
 local GuiCollisionService = {}
 GuiCollisionService.__index = GuiCollisionService
 
-local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks to RuizuKun_Dev
+local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks to RuizuKun_Dev :)
 	local Gui_Instance1_Pos, Gui_Instance1_Size = Gui_Instance1.AbsolutePosition, Gui_Instance1.AbsoluteSize;
 	local Gui_Instance2_Pos, Gui_Instance2_Size = Gui_Instance2.AbsolutePosition, Gui_Instance2.AbsoluteSize;
 	local IsColliding, MTV = ((Gui_Instance1_Pos.x < Gui_Instance2_Pos.x + Gui_Instance2_Size.x and Gui_Instance1_Pos.x + Gui_Instance1_Size.x > Gui_Instance2_Pos.x) and (Gui_Instance1_Pos.y < Gui_Instance2_Pos.y + Gui_Instance2_Size.y and Gui_Instance1_Pos.y + Gui_Instance1_Size.y > Gui_Instance2_Pos.y));
