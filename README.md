@@ -124,7 +124,8 @@ Colliders are saved as such:
  {
    Still,
    Frame, 
-   Frame2
+   Frame2,
+   Frame3
  }
 ]]--
 ```
