@@ -157,7 +157,7 @@ group:removeCollider(1) -- removes the 1st collider that was added
 ## `addHitter()`
 
 * parameters: guiObject: instance, tweens: table
-* returns: hitter: instance
+* returns: hitter: { index: number, hitterInstance: instance }
 
 ```lua
 local tween = game:GetService("TweenService"):Create(script.Parent, TweenInfo.new(1, Enum.EasingStyle.Linear), {Position = UDim2.new(1,0,.5,0)})
@@ -167,7 +167,7 @@ group:addHitter(script.Parent.HitFrame, { tween })
 ## `updateHitter()`
 
 * parameters: index: number, instance: instance, tweens: table
-* returns: hitter: instance
+* returns: hitter: { index: number, hitterInstance: instance }
 
 This updates already existing hitter's instance and tweens!
 
