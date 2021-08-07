@@ -1,9 +1,10 @@
 local GuiCollisionService = {}
 GuiCollisionService.__index = GuiCollisionService
 
-local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks to RuizuKun_Dev :)
+local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks to RuizuKun_Dev
 	local Gui_Instance1_Pos, Gui_Instance1_Size = Gui_Instance1.AbsolutePosition, Gui_Instance1.AbsoluteSize;
 	local Gui_Instance2_Pos, Gui_Instance2_Size = Gui_Instance2.AbsolutePosition, Gui_Instance2.AbsoluteSize;
+	
 	local IsColliding, MTV = ((Gui_Instance1_Pos.x < Gui_Instance2_Pos.x + Gui_Instance2_Size.x and Gui_Instance1_Pos.x + Gui_Instance1_Size.x > Gui_Instance2_Pos.x) and (Gui_Instance1_Pos.y < Gui_Instance2_Pos.y + Gui_Instance2_Size.y and Gui_Instance1_Pos.y + Gui_Instance1_Size.y > Gui_Instance2_Pos.y));
 	if IsColliding then
 		local EdgeDifferences_Array = {
@@ -23,13 +24,19 @@ local function check (hitter, colliders)
 
 	for _, collider in ipairs(colliders) do
 		if collider.solid then
-			local IsColliding, MTV = CollidesMTV_Func(hitter,collider.i);
+			local IsColliding, MTV = CollidesMTV_Func(hitter.i, collider.i);
 			if IsColliding then
-				hitter.Position = hitter.Position - UDim2.new(0, MTV.x, 0, MTV.y); 
+				for i, tween in ipairs(hitter.t) do
+					if tween.PlaybackState == Enum.PlaybackState.Playing then
+						tween:Pause()
+						table.remove(hitter.t, i)
+					end
+				end 
+				hitter.i.Position = hitter.i.Position - UDim2.new(0, MTV.x, 0, MTV.y); 
 			end;
 		end
 		
-		if GuiCollisionService.isColliding(hitter, collider.i) then
+		if GuiCollisionService.isColliding(hitter.i, collider.i) then
 			table.insert(collidingWith, collider.i)
 		end		
 	end
@@ -80,16 +87,16 @@ function GuiCollisionService.createCollisionGroup()
 					end
 				end
 
-				hitter.CollidersTouched:Fire(res)
-				hitter.Colliding.Value = true
+				hitter.i.CollidersTouched:Fire(res)
+				hitter.i.Colliding.Value = true
 				return
 			else
-				hitter.Colliding.Value = false
+				hitter.i.Colliding.Value = false
 			end
 
-			hitter.Colliding:GetPropertyChangedSignal("Value"):Connect(function()
-				if not hitter.Colliding.Value then
-					hitter.OnCollisionEnded:Fire()
+			hitter.i.Colliding:GetPropertyChangedSignal("Value"):Connect(function()
+				if not hitter.i.Colliding.Value then
+					hitter.i.OnCollisionEnded:Fire()
 					return
 				end
 			end)
@@ -99,9 +106,10 @@ function GuiCollisionService.createCollisionGroup()
 	return self
 end
 
-function GuiCollisionService:addHitter(instance)
+function GuiCollisionService:addHitter(instance, tweens: table)
 	if not typeof(instance) == "Instance" then error("argument must be an instance") return end
-
+	if not typeof(tweens) == "Table" then error("argument must be a table") return end
+	
 	local be = Instance.new("BindableEvent")
 	be.Name = "CollidersTouched"
 	be.Parent = instance
@@ -115,15 +123,38 @@ function GuiCollisionService:addHitter(instance)
 	is.Value = false
 	is.Parent = instance
 
-	table.insert(self.hitters, instance)
+	table.insert(self.hitters, { i = instance, t = tweens })
+	
+	return { index = #self.hitters, ["instance"] = instance }
+end
+
+function GuiCollisionService:updateHitter(i: number, instance, tweens: table)
+	if not typeof(i) == "Number" then error("argument must be a table") return end
+	if not typeof(instance) == "Instance" then error("argument must be an instance") return end
+	if not typeof(tweens) == "Table" then error("argument must be a table") return end
+	
+	
+	self.hitters[i] = { i = instance, t = tweens or {} }
+	
+	return { index = i, instance = self.hitters[i].i } 
 end
 
 function GuiCollisionService:getHitter(index)
-	return self.hitters[index]
+	return self.hitters[index].i
+end
+
+function GuiCollisionService:getHitterTweens(index)
+	return self.hitters[index].t
 end
 
 function GuiCollisionService:getHitters()
-	return self.hitters
+	local res = {}
+
+	for _, v in ipairs(self.hitters) do
+		table.insert(res, v.i)
+	end
+
+	return res
 end
 
 function GuiCollisionService:removeHitter(index)
@@ -139,8 +170,9 @@ function GuiCollisionService:addCollider(instance, t)
 
 	if t then
 		table.insert(self.colliders, { i = instance, solid = true })
+	else
+		table.insert(self.colliders, { i = instance })
 	end
-	table.insert(self.colliders, { i = instance })
 end
 
 function GuiCollisionService:getColliders()
