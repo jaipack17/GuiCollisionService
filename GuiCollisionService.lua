@@ -5,7 +5,7 @@ local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks t
 	local Gui_Instance1_Pos, Gui_Instance1_Size = Gui_Instance1.AbsolutePosition, Gui_Instance1.AbsoluteSize;
 	local Gui_Instance2_Pos, Gui_Instance2_Size = Gui_Instance2.AbsolutePosition, Gui_Instance2.AbsoluteSize;
 	
-	local IsColliding, MTV = ((Gui_Instance1_Pos.x < Gui_Instance2_Pos.x + Gui_Instance2_Size.x and Gui_Instance1_Pos.x + Gui_Instance1_Size.x > Gui_Instance2_Pos.x) and (Gui_Instance1_Pos.y < Gui_Instance2_Pos.y + Gui_Instance2_Size.y and Gui_Instance1_Pos.y + Gui_Instance1_Size.y > Gui_Instance2_Pos.y));
+	local IsColliding, MTV = GuiCollisionService.isColliding(Gui_Instance1, Gui_Instance2)
 	if IsColliding then
 		local EdgeDifferences_Array = {
 			Vector2.new(Gui_Instance1_Pos.x - (Gui_Instance2_Pos.x + Gui_Instance2_Size.x), 0);
@@ -26,12 +26,14 @@ local function check (hitter, colliders)
 		if collider.solid then
 			local IsColliding, MTV = CollidesMTV_Func(hitter.i, collider.i);
 			if IsColliding then
-				for i, tween in ipairs(hitter.t) do
-					if tween.PlaybackState == Enum.PlaybackState.Playing then
-						tween:Pause()
-						table.remove(hitter.t, i)
-					end
-				end 
+				if hitter.t then
+					for i, tween in ipairs(hitter.t) do
+						if tween.PlaybackState == Enum.PlaybackState.Playing then
+							tween:Pause()
+							table.remove(hitter.t, i)
+						end
+					end 					
+				end
 				hitter.i.Position = hitter.i.Position - UDim2.new(0, MTV.x, 0, MTV.y); 
 			end;
 		end
@@ -107,9 +109,9 @@ function GuiCollisionService.createCollisionGroup()
 end
 
 function GuiCollisionService:addHitter(instance, tweens: table)
-	if not typeof(instance) == "Instance" then error("argument must be an instance") return end
-	if not typeof(tweens) == "Table" then error("argument must be a table") return end
-	
+	assert(typeof(instance) == "Instance", "argument must be an instance")
+	assert(typeof(tweens) == "table", "argument must be a table")
+
 	local be = Instance.new("BindableEvent")
 	be.Name = "CollidersTouched"
 	be.Parent = instance
@@ -129,10 +131,9 @@ function GuiCollisionService:addHitter(instance, tweens: table)
 end
 
 function GuiCollisionService:updateHitter(i: number, instance, tweens: table)
-	if not typeof(i) == "Number" then error("argument must be a table") return end
-	if not typeof(instance) == "Instance" then error("argument must be an instance") return end
-	if not typeof(tweens) == "Table" then error("argument must be a table") return end
-	
+	assert(typeof(i) == "number", "argument must be a table")
+	assert(typeof(instance) == "Instance", "argument must be an instance")
+	assert(typeof(tweens) == "table", "argument must be a table")
 	
 	self.hitters[i] = { i = instance, t = tweens or {} }
 	
@@ -161,18 +162,31 @@ function GuiCollisionService:removeHitter(index)
 	table.remove(self.hitters, index)
 end
 
-function GuiCollisionService:addCollider(instance, t)
-	if not typeof(instance) == "Instance" then error("argument must be an instance") return end
+function GuiCollisionService:addCollider(instance, t: boolean)
+	assert(typeof(instance) == "Instance", "argument must be an instance")
+	assert(typeof(t) == "boolean", "argument must be a boolean")
 
 	if not self.colliders then
 		self.colliders = {}
 	end
-
+	
 	if t then
 		table.insert(self.colliders, { i = instance, solid = true })
 	else
 		table.insert(self.colliders, { i = instance })
 	end
+	
+	return { index = #self.colliders, ["instance"] = instance, solid = t }
+end
+
+function GuiCollisionService:updateCollider(i: number, instance, t: boolean)
+	assert(typeof(i) == "number", "argument must be a table")
+	assert(typeof(instance) == "Instance", "argument must be an instance")
+	assert(typeof(t) == "boolean", "argument must be a boolean")
+
+	self.colliders[i] = { ["i"] = instance, solid = t }
+
+	return { index = i, instance = self.colliders[i].i, self.colliders[i].solid } 
 end
 
 function GuiCollisionService:getColliders()
