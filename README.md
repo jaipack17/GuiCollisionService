@@ -5,7 +5,7 @@
       <img src="https://img.shields.io/badge/module-get-blue"/>
     </a>
     <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
-      <img src="https://img.shields.io/badge/version-1.19-yellow"/>
+      <img src="https://img.shields.io/badge/version-2.0-yellow"/>
     </a>
     <a href="https://github.com/jaipack17/GuiCollisionService/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/github-contribute-black" alt="contribute" /></a>
     <a href="https://www.github.com/jaipack17/GuiCollisionService/issues"><img src="https://img.shields.io/badge/issues-bugs-red" alt="issues" /></a>
@@ -105,8 +105,24 @@ group.isColliding(instance1, instance2)
 ```
 <hr/>
 
-**Managing Colliders**
+## `setZIndexHierarchy()`
 
+* parameters: shouldCollideAccordingToZIndex: boolean
+* returns: nil
+
+The function is used to determine if the hitter will collide with colliders that have different ZIndex values. 
+
+By default it is set to false
+
+```lua
+group:setZIndexHierarchy(true) -- hitter won't collide with colliders that have different Zindex values than the hitter
+```
+
+```lua
+group:setZIndexHierarchy(false) -- hitter will collide with colliders that have different Zindex values than the hitter and also the colliders that have the same ZIndex as the hitter
+```
+
+**Managing Colliders**
 
 ## `addCollider()`
 
