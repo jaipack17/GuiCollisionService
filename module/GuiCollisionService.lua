@@ -19,28 +19,44 @@ local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks t
 	return IsColliding, MTV or Vector2.new();
 end;
 
-local function check (hitter, colliders)
+local function checkCollisions(collider, hitter)	
+	if collider.solid then
+		local IsColliding, MTV = CollidesMTV_Func(hitter.i, collider.i);
+		if IsColliding then
+			if hitter.t then
+				for i, tween in ipairs(hitter.t) do
+					if tween.PlaybackState == Enum.PlaybackState.Playing then
+						tween:Pause()
+						table.remove(hitter.t, i)
+					end
+				end 					
+			end
+			hitter.i.Position = hitter.i.Position - UDim2.new(0, MTV.x, 0, MTV.y); 
+		end;
+	end
+
+	if GuiCollisionService.isColliding(hitter.i, collider.i) then
+		return true
+	end	
+	
+	return false
+end
+
+local function check (hitter, colliders, h)
 	local collidingWith = {}
 
 	for _, collider in ipairs(colliders) do
-		if collider.solid then
-			local IsColliding, MTV = CollidesMTV_Func(hitter.i, collider.i);
-			if IsColliding then
-				if hitter.t then
-					for i, tween in ipairs(hitter.t) do
-						if tween.PlaybackState == Enum.PlaybackState.Playing then
-							tween:Pause()
-							table.remove(hitter.t, i)
-						end
-					end 					
+		if h then
+			if hitter.i.ZIndex == collider.i.ZIndex then
+				if checkCollisions(collider, hitter) then
+					table.insert(collidingWith, collider.i)
 				end
-				hitter.i.Position = hitter.i.Position - UDim2.new(0, MTV.x, 0, MTV.y); 
-			end;
-		end
-		
-		if GuiCollisionService.isColliding(hitter.i, collider.i) then
-			table.insert(collidingWith, collider.i)
-		end		
+			end
+		else
+			if checkCollisions(collider, hitter) then
+				table.insert(collidingWith, collider.i)
+			end
+		end 
 	end
 
 	if #collidingWith > 0 then
@@ -73,10 +89,11 @@ function GuiCollisionService.createCollisionGroup()
 
 	self.colliders = {}
 	self.hitters = {}
+	self.hierarchy = false 
 
 	game:GetService("RunService").RenderStepped:Connect(function(dt)
 		for _, hitter in ipairs(self.hitters) do
-			local res = check(hitter, self.colliders)
+			local res = check(hitter, self.colliders, self.hierarchy)
 			
 			if res then
 				local bin = {}
@@ -106,6 +123,12 @@ function GuiCollisionService.createCollisionGroup()
 	end)
 
 	return self
+end
+
+function GuiCollisionService:setZIndexHierarchy(bool: boolean)
+	assert(typeof(bool) == "boolean", "argument must be a boolean")
+	
+	self.hierarchy = true
 end
 
 function GuiCollisionService:addHitter(instance, tweens: table)
