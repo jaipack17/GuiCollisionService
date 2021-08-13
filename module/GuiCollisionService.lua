@@ -1,17 +1,17 @@
 local GuiCollisionService = {}
 GuiCollisionService.__index = GuiCollisionService
 
-local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks to RuizuKun_Dev
-	local Gui_Instance1_Pos, Gui_Instance1_Size = Gui_Instance1.AbsolutePosition, Gui_Instance1.AbsoluteSize;
-	local Gui_Instance2_Pos, Gui_Instance2_Size = Gui_Instance2.AbsolutePosition, Gui_Instance2.AbsoluteSize;
-	
-	local IsColliding, MTV = GuiCollisionService.isColliding(Gui_Instance1, Gui_Instance2)
+local function solidCollision(gui1,gui2) -- special thanks to RuizuKun_Dev
+	local pos1, size1 = gui1.AbsolutePosition, gui1.AbsoluteSize;
+	local pos2, size2 = gui2.AbsolutePosition, gui2.AbsoluteSize;
+
+	local IsColliding, MTV = GuiCollisionService.isColliding(gui1, gui2)
 	if IsColliding then
 		local EdgeDifferences_Array = {
-			Vector2.new(Gui_Instance1_Pos.x - (Gui_Instance2_Pos.x + Gui_Instance2_Size.x), 0);
-			Vector2.new((Gui_Instance1_Pos.x + Gui_Instance1_Size.x) - Gui_Instance2_Pos.x, 0);
-			Vector2.new(0, Gui_Instance1_Pos.y - (Gui_Instance2_Pos.y + Gui_Instance2_Size.y));
-			Vector2.new(0, (Gui_Instance1_Pos.y + Gui_Instance1_Size.y) - Gui_Instance2_Pos.y);
+			Vector2.new(pos1.x - (pos2.x + size2.x), 0);
+			Vector2.new((pos1.x + size1.x) - pos2.x, 0);
+			Vector2.new(0, pos1.y - (pos2.y + size2.y));
+			Vector2.new(0, (pos1.y + size1.y) - pos2.y);
 		};
 		table.sort(EdgeDifferences_Array, function(A, B) return A.magnitude < B.magnitude; end);
 		MTV = EdgeDifferences_Array[1];
@@ -19,9 +19,23 @@ local function CollidesMTV_Func(Gui_Instance1,Gui_Instance2) -- special thanks t
 	return IsColliding, MTV or Vector2.new();
 end;
 
+local function getCorners(guiObject0)
+	local pos = guiObject0.AbsolutePosition
+	local size = guiObject0.AbsoluteSize
+	local rotation = guiObject0.Rotation
+
+	local topleft = pos + size/2 - math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) + math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) + math.atan2(size.Y, size.X)))
+	local bottomleft = pos + size/2-math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) - math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) - math.atan2(size.Y, size.X)))
+	local bottomright = pos + size/2+math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) + math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) + math.atan2(size.Y, size.X)))
+	local topright = pos + size/2+math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) - math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) - math.atan2(size.Y, size.X)))
+
+	return { topleft, bottomleft, bottomright, topright }
+end
+
+
 local function checkCollisions(collider, hitter)	
 	if collider.solid then
-		local IsColliding, MTV = CollidesMTV_Func(hitter.i, collider.i);
+		local IsColliding, MTV = solidCollision(hitter.i, collider.i);
 		if IsColliding then
 			if hitter.t then
 				for i, tween in ipairs(hitter.t) do
@@ -66,6 +80,34 @@ local function check (hitter, colliders, h)
 	return nil
 end
 
+local function inRange(num, range)
+	return num > range.Min and num < range.Max
+end
+
+function GuiCollisionService.isInCore(gui0, gui1)
+	assert(typeof(gui0) == "Instance" and typeof(gui1) == "Instance", "argument must be an instance")
+	if gui0.AbsoluteSize.x > gui1.AbsoluteSize.x or gui0.AbsoluteSize.y > gui1.AbsoluteSize.y then return false end
+	
+	local corners0, corners1 = getCorners(gui0), getCorners(gui1)
+	
+	local x = NumberRange.new(corners1[1].x, corners1[4].x)
+	local y = NumberRange.new(corners1[1].y, corners1[2].y)
+	
+	local cornersInside = 0
+	
+	for _, corner in ipairs(corners0) do
+		if inRange(corner.x, x) and inRange(corner.y, y) then
+			cornersInside += 1
+		end
+	end
+	
+	if cornersInside == 4 then
+		return true
+	end
+	
+	return false
+end
+
 function GuiCollisionService.isColliding(guiObject0, guiObject1)		
 	if not typeof(guiObject0) == "Instance" or not typeof(guiObject1) == "Instance" then error("argument must be an instance") return end
 
@@ -90,6 +132,7 @@ function GuiCollisionService.createCollisionGroup()
 	self.colliders = {}
 	self.hitters = {}
 	self.hierarchy = false 
+	self.force = Vector2.new(0, 0)
 
 	game:GetService("RunService").RenderStepped:Connect(function(dt)
 		for _, hitter in ipairs(self.hitters) do
