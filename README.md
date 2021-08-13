@@ -5,7 +5,7 @@
       <img src="https://img.shields.io/badge/module-get-blue"/>
     </a>
     <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
-      <img src="https://img.shields.io/badge/version-2.0-yellow"/>
+      <img src="https://img.shields.io/badge/version-2.01-yellow"/>
     </a>
     <a href="https://github.com/jaipack17/GuiCollisionService/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/github-contribute-black" alt="contribute" /></a>
     <a href="https://www.github.com/jaipack17/GuiCollisionService/issues"><img src="https://img.shields.io/badge/issues-bugs-red" alt="issues" /></a>
@@ -92,7 +92,7 @@ local group = GuiCollisionService.createCollisionGroup()
 
 **Raw**
 
-## `.isColliding`
+## `.isColliding()`
 
 * parameters: guiObjectHitter: instance, guiObjectCollider: instance
 * returns: boolean
@@ -101,8 +101,23 @@ local group = GuiCollisionService.createCollisionGroup()
 local instance1 = script.Parent.Frame1 -- example
 local instance2 = script.Parent.Collider -- example [Frame]
 
-group.isColliding(instance1, instance2)
+GuiCollisionService.isColliding(instance1, instance2)
 ```
+
+## `.isInCore()`
+
+* parameters: guiObjectHitter: instance, guiObjectCollider: instance
+* returns: boolean
+
+This function returns true if a gui is completely inside of another, else it returns false. If guiHitter's size is smaller than that of guiCollider, the function returns false.
+
+```lua
+local instance1 = script.Parent.Frame1 -- example
+local instance2 = script.Parent.Collider -- example [Frame]
+
+GuiCollisionService.isInCore(instance1, instance2)
+```
+
 <hr/>
 
 ## `setZIndexHierarchy()`
