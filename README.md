@@ -5,7 +5,7 @@
       <img src="https://img.shields.io/badge/module-get-blue"/>
     </a>
     <a href="https://www.roblox.com/library/7145661386/GuiCollisionService">
-      <img src="https://img.shields.io/badge/version-2.01-yellow"/>
+      <img src="https://img.shields.io/badge/version-3.0-yellow"/>
     </a>
     <a href="https://github.com/jaipack17/GuiCollisionService/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/github-contribute-black" alt="contribute" /></a>
     <a href="https://www.github.com/jaipack17/GuiCollisionService/issues"><img src="https://img.shields.io/badge/issues-bugs-red" alt="issues" /></a>
