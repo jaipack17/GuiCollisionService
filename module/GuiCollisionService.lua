@@ -1,6 +1,27 @@
 local GuiCollisionService = {}
 GuiCollisionService.__index = GuiCollisionService
 
+local function intersects (p, edge)
+	local x1, y1 = edge.a.x, edge.a.y
+	local x2, y2 = edge.b.x, edge.b.y
+
+	local x3, y3 = p.x, p.y
+	local x4, y4 = p.x + 2147483647, p.y
+	
+	local den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+
+	if den == 0 then return false end
+
+	local t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den
+	local u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den
+	
+	if t and u and t > 0 and t < 1 and u > 0 then
+		return true
+	end
+	
+	return false
+end
+
 local function solidCollision(gui1,gui2) -- special thanks to RuizuKun_Dev
 	local pos1, size1 = gui1.AbsolutePosition, gui1.AbsoluteSize;
 	local pos2, size2 = gui2.AbsolutePosition, gui2.AbsoluteSize;
@@ -24,12 +45,17 @@ local function getCorners(guiObject0)
 	local size = guiObject0.AbsoluteSize
 	local rotation = guiObject0.Rotation
 
-	local topleft = pos + size/2 - math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) + math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) + math.atan2(size.Y, size.X)))
-	local bottomleft = pos + size/2-math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) - math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) - math.atan2(size.Y, size.X)))
-	local bottomright = pos + size/2+math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) + math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) + math.atan2(size.Y, size.X)))
-	local topright = pos + size/2+math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) - math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) - math.atan2(size.Y, size.X)))
+	local a = pos + size/2 - math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) + math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) + math.atan2(size.Y, size.X)))
+	local b = pos + size/2-math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) - math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) - math.atan2(size.Y, size.X)))
+	local c = pos + size/2+math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) + math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) + math.atan2(size.Y, size.X)))
+	local d = pos + size/2+math.sqrt((size.X/2)^2 + (size.Y/2)^2) * Vector2.new(math.cos(math.rad(rotation) - math.atan2(size.Y, size.X)), math.sin(math.rad(rotation) - math.atan2(size.Y, size.X)))
 
-	return { topleft, bottomleft, bottomright, topright }
+	return { 
+		topleft = a, 
+		bottomleft = b, 
+		topright = d, 
+		bottomright = c 
+	}
 end
 
 
@@ -118,8 +144,48 @@ function GuiCollisionService.isColliding(guiObject0, guiObject1)
 	local ap2 = guiObject1.AbsolutePosition
 	local as2 = guiObject1.AbsoluteSize
 	local sum2 = ap2 + as2
-
-	return ((ap1.x < sum2.x and sum.x > ap2.x) and (ap1.y < sum2.y and sum.y > ap2.y))
+	
+	local corners0 = getCorners(guiObject0)
+	local corners1 = getCorners(guiObject1)
+	
+	local edges = {
+		{
+			a = corners1.topleft,
+			b = corners1.bottomleft
+		},
+		{
+			a = corners1.topleft,
+			b = corners1.topright
+		},
+		{
+			a = corners1.bottomleft,
+			b = corners1.bottomright
+		},
+		{
+			a = corners1.topright,
+			b = corners1.bottomright
+		}
+	}
+	
+	local collisions = 0
+	
+	for _, corner in pairs(corners0) do
+		for _, edge in pairs(edges) do			
+			if intersects(corner, edge) then
+				collisions += 1
+			end			
+		end
+	end
+	
+	if collisions%2 ~= 0 then
+		return true
+	end
+	
+	if (ap1.x < sum2.x and sum.x > ap2.x) and (ap1.y < sum2.y and sum.y > ap2.y) then
+		return true
+	end
+	
+	return false
 end
 
 function GuiCollisionService.createCollisionGroup()
@@ -132,7 +198,6 @@ function GuiCollisionService.createCollisionGroup()
 	self.colliders = {}
 	self.hitters = {}
 	self.hierarchy = false 
-	self.force = Vector2.new(0, 0)
 
 	game:GetService("RunService").RenderStepped:Connect(function(dt)
 		for _, hitter in ipairs(self.hitters) do
