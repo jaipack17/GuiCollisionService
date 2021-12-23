@@ -9,7 +9,6 @@
     </a>
     <a href="https://github.com/jaipack17/GuiCollisionService/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/github-contribute-black" alt="contribute" /></a>
     <a href="https://www.github.com/jaipack17/GuiCollisionService/issues"><img src="https://img.shields.io/badge/issues-bugs-red" alt="issues" /></a>
-    <a href="https://github.com/jaipack17/cli-pages#documentation"><img src="https://img.shields.io/badge/docs-view-%23blue" alt="docs" /></a>
 </div>
 
 <hr/>
